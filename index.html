@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SportDesk — Sports Event Assistant</title>
+  
+  <!-- Modern Geometric Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              blue: '#0066CC',
+              blueHover: '#0055B3',
+              lightBlue: '#E8F2FF',
+              green: '#34C759',
+              dark: '#1D1D1F',
+              muted: '#6E6E73',
+              border: '#D2D2D7',
+              surface: '#FFFFFF',
+              subtle: '#F5F5F7'
+            }
+          },
+          boxShadow: {
+            'diffusion': '0 20px 40px -15px rgba(0, 0, 0, 0.05)',
+            'subtle': '0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02)',
+            'inner-glow': 'inset 0 1px 0 rgba(255, 255, 255, 0.8)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Viewport stability & anti-flicker */
+    html, body {
+      min-height: 100dvh;
+      background-color: #F5F5F7;
+      color: #1D1D1F;
+      font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Minimalist Apple scrollbars */
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #D2D2D7;
+      border-radius: 999px;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Spring-feel tactile micro-interaction */
+    .tactile-btn {
+      transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.15s ease, border-color 0.15s ease;
+    }
+    .tactile-btn:active {
+      transform: scale(0.98);
+    }
+  </style>
+</head>
+<body class="min-h-[100dvh] flex flex-col justify-between selection:bg-[#E8F2FF] selection:text-[#0066CC]">
+
+  <!-- Top Global Navigation Bar -->
+  <header class="w-full bg-[#FFFFFF]/80 backdrop-blur-md border-b border-[#D2D2D7] sticky top-0 z-30">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
+      
+      <!-- Brand & Status -->
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-xl bg-[#E8F2FF] border border-[#0066CC]/20 flex items-center justify-center text-[#0066CC] shadow-inner-glow">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="10" rx="2"></rect>
+            <circle cx="12" cy="5" r="2"></circle>
+            <path d="M12 7v4"></path>
+            <line x1="8" y1="16" x2="8.01" y2="16"></line>
+            <line x1="16" y1="16" x2="16.01" y2="16"></line>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-sm tracking-tight text-[#1D1D1F]">SportDesk</span>
+            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#F5F5F7] text-[#6E6E73] border border-[#D2D2D7]/60">v1.2</span>
+          </div>
+          <p class="text-[11px] text-[#6E6E73] hidden sm:block">Tournament Operations & Intelligence</p>
+        </div>
+      </div>
+
+      <!-- Live Heartbeat Indicator -->
+      <div class="flex items-center gap-2.5">
+        <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFFFFF] border border-[#D2D2D7] shadow-subtle text-xs">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#34C759] opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-[#34C759]"></span>
+          </span>
+          <span class="text-[#1D1D1F] font-medium text-[11px]">Live Engine Active</span>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Main Asymmetric Workspace (Mobile: Single Column | Desktop: Split Asymmetric Grid) -->
+  <main class="flex-1 max-w-6xl w-full mx-auto p-3 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+    
+    <!-- Left Column: The Conversational Engine (Cols 1-8) -->
+    <section class="lg:col-span-8 w-full bg-[#FFFFFF] border border-[#D2D2D7] rounded-2xl shadow-diffusion overflow-hidden flex flex-col h-[calc(100dvh-5.5rem)] lg:h-[620px]">
+      
+      <!-- Chat Subheader -->
+      <div class="px-4 py-3 bg-[#FFFFFF] border-b border-[#D2D2D7] flex items-center justify-between flex-shrink-0">
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 rounded-full bg-[#0066CC]"></div>
+          <h2 class="text-xs font-semibold uppercase tracking-wider text-[#6E6E73]">Event Stream</h2>
+        </div>
+        <span class="text-[11px] font-mono text-[#6E6E73]" id="engineTag">Gemini 2.5 Flash + SQLite RAG</span>
+      </div>
+
+      <!-- Messages Stream -->
+      <div id="messagesContainer" class="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 bg-[#FFFFFF]">
+        
+        <!-- Welcome Message -->
+        <div class="flex items-start gap-3 max-w-[88%]">
+          <div class="w-7 h-7 rounded-full bg-[#F5F5F7] border border-[#D2D2D7] text-[#0066CC] flex-shrink-0 flex items-center justify-center mt-0.5">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="10" rx="2"></rect>
+              <circle cx="12" cy="5" r="2"></circle>
+              <path d="M12 7v4"></path>
+              <line x1="8" y1="16" x2="8.01" y2="16"></line>
+              <line x1="16" y1="16" x2="16.01" y2="16"></line>
+            </svg>
+          </div>
+          <div>
+            <div class="bg-[#F5F5F7] text-[#1D1D1F] rounded-2xl rounded-tl-sm px-4 py-3 text-xs sm:text-sm leading-relaxed border border-[#D2D2D7]/40 shadow-subtle">
+              Hello! I am SportDesk. Ask me anything regarding tournament fixtures, court locations, equipment standards, or active weather holds.
+            </div>
+            <div class="text-[10px] font-mono text-[#6E6E73] mt-1 ml-1">Event Registry Synced</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Dock: Suggestions anchored strictly ABOVE the input box -->
+      <div class="border-t border-[#D2D2D7] bg-[#FFFFFF] pt-2 pb-3.5 px-3 sm:px-4 flex-shrink-0">
+        
+        <!-- Suggestions Row: Text-only, zero emojis, clean tactile pills -->
+        <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-2 text-xs">
+          <button onclick="sendQuickPrompt('When is the 100m sprint final?')" class="tactile-btn px-3 py-1 bg-[#F5F5F7] hover:bg-[#E8F2FF] hover:text-[#0066CC] hover:border-[#0066CC]/40 text-[#1D1D1F] border border-[#D2D2D7] rounded-full whitespace-nowrap text-xs font-medium">
+            100m Final Schedule
+          </button>
+          <button onclick="sendQuickPrompt('Where is the medical tent near Gate 3?')" class="tactile-btn px-3 py-1 bg-[#F5F5F7] hover:bg-[#E8F2FF] hover:text-[#0066CC] hover:border-[#0066CC]/40 text-[#1D1D1F] border border-[#D2D2D7] rounded-full whitespace-nowrap text-xs font-medium">
+            Medical & First Aid
+          </button>
+          <button onclick="sendQuickPrompt('Is there any rain delay on Track B?')" class="tactile-btn px-3 py-1 bg-[#F5F5F7] hover:bg-[#E8F2FF] hover:text-[#0066CC] hover:border-[#0066CC]/40 text-[#1D1D1F] border border-[#D2D2D7] rounded-full whitespace-nowrap text-xs font-medium">
+            Weather & Delays
+          </button>
+          <button onclick="sendQuickPrompt('What are the spike shoe regulations?')" class="tactile-btn px-3 py-1 bg-[#F5F5F7] hover:bg-[#E8F2FF] hover:text-[#0066CC] hover:border-[#0066CC]/40 text-[#1D1D1F] border border-[#D2D2D7] rounded-full whitespace-nowrap text-xs font-medium">
+            Spike Shoe Rules
+          </button>
+          <button onclick="sendQuickPrompt('Where is spectator parking in Lot B?')" class="tactile-btn px-3 py-1 bg-[#F5F5F7] hover:bg-[#E8F2FF] hover:text-[#0066CC] hover:border-[#0066CC]/40 text-[#1D1D1F] border border-[#D2D2D7] rounded-full whitespace-nowrap text-xs font-medium">
+            Parking & Shuttles
+          </button>
+        </div>
+
+        <!-- Clean Input Bar -->
+        <form id="chatForm" onsubmit="handleUserInput(event)" class="relative flex items-center">
+          <input 
+            type="text" 
+            id="chatInput" 
+            placeholder="Ask a question about the tournament..." 
+            class="w-full bg-[#F5F5F7] border border-[#D2D2D7] text-[#1D1D1F] placeholder-[#6E6E73] text-xs sm:text-sm rounded-xl pl-4 pr-11 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#0066CC] focus:bg-[#FFFFFF] transition-all"
+            autocomplete="off"
+          />
+          <button 
+            type="submit" 
+            id="sendBtn"
+            class="tactile-btn absolute right-1.5 w-8 h-8 rounded-lg bg-[#0066CC] hover:bg-[#0055B3] text-white flex items-center justify-center shadow-subtle"
+            title="Send Message"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+            </svg>
+          </button>
+        </form>
+
+      </div>
+
+    </section>
+
+    <!-- Right Column: Live Tournament Pulse (Cols 9-12, Hidden on small mobile, visible on desktop) -->
+    <aside class="hidden lg:flex lg:col-span-4 flex-col gap-4">
+      
+      <!-- Live Fixture Ticker -->
+      <div class="bg-[#FFFFFF] border border-[#D2D2D7] rounded-2xl p-4 shadow-subtle">
+        <div class="flex items-center justify-between pb-3 border-b border-[#D2D2D7]/60">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-[#34C759]"></span>
+            <h3 class="font-semibold text-xs tracking-tight uppercase text-[#6E6E73]">Live Fixtures</h3>
+          </div>
+          <span class="text-[10px] font-mono text-[#6E6E73]">Today</span>
+        </div>
+
+        <div class="mt-3 space-y-2 text-xs">
+          <!-- Item 1 -->
+          <div onclick="sendQuickPrompt('When is the 100m sprint final?')" class="tactile-btn p-2.5 rounded-xl bg-[#F5F5F7] hover:bg-[#E8F2FF] border border-[#D2D2D7]/60 cursor-pointer">
+            <div class="flex items-center justify-between font-semibold text-[#1D1D1F]">
+              <span>100m Sprint Final</span>
+              <span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-amber-100 text-amber-800">04:15 PM</span>
+            </div>
+            <p class="text-[11px] text-[#6E6E73] mt-0.5">Main Track A • Spectators 03:30 PM</p>
+          </div>
+
+          <!-- Item 2 -->
+          <div onclick="sendQuickPrompt('Tell me about 400m hurdles')" class="tactile-btn p-2.5 rounded-xl bg-[#F5F5F7] hover:bg-[#E8F2FF] border border-[#D2D2D7]/60 cursor-pointer">
+            <div class="flex items-center justify-between font-semibold text-[#1D1D1F]">
+              <span>400m Hurdles</span>
+              <span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-800">Live Heat 2</span>
+            </div>
+            <p class="text-[11px] text-[#6E6E73] mt-0.5">Main Track A • Semi-Final</p>
+          </div>
+
+          <!-- Item 3 -->
+          <div onclick="sendQuickPrompt('Who is playing at Court 3?')" class="tactile-btn p-2.5 rounded-xl bg-[#F5F5F7] hover:bg-[#E8F2FF] border border-[#D2D2D7]/60 cursor-pointer">
+            <div class="flex items-center justify-between font-semibold text-[#1D1D1F]">
+              <span>Varsity Basketball</span>
+              <span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-[#F5F5F7] text-[#6E6E73]">03:00 PM</span>
+            </div>
+            <p class="text-[11px] text-[#6E6E73] mt-0.5">Court 3 • North Hall</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Condition & Weather Card -->
+      <div class="bg-[#FFFFFF] border border-[#D2D2D7] rounded-2xl p-4 shadow-subtle">
+        <div class="flex items-center justify-between pb-2 border-b border-[#D2D2D7]/60">
+          <h3 class="font-semibold text-xs tracking-tight uppercase text-[#6E6E73]">Track & Weather Status</h3>
+          <span class="text-[10px] font-mono text-[#34C759] font-medium">Optimal</span>
+        </div>
+        
+        <div class="mt-3 grid grid-cols-2 gap-2 text-xs">
+          <div class="p-2.5 rounded-xl bg-[#F5F5F7] border border-[#D2D2D7]/60">
+            <span class="text-[10px] text-[#6E6E73] block uppercase tracking-wider">Surface</span>
+            <span class="font-bold text-[#1D1D1F] text-xs">Dry & Clear</span>
+          </div>
+          <div class="p-2.5 rounded-xl bg-[#F5F5F7] border border-[#D2D2D7]/60">
+            <span class="text-[10px] text-[#6E6E73] block uppercase tracking-wider">Schedule Hold</span>
+            <span class="font-bold text-[#34C759] text-xs">0 Min Delay</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Facility Badges -->
+      <div class="bg-[#FFFFFF] border border-[#D2D2D7] rounded-2xl p-4 shadow-subtle">
+        <h3 class="font-semibold text-xs tracking-tight uppercase text-[#6E6E73] mb-2.5">Key Facilities</h3>
+        <div class="flex flex-wrap gap-1.5 text-[11px]">
+          <span class="px-2.5 py-1 rounded-md bg-[#F5F5F7] border border-[#D2D2D7] text-[#1D1D1F]">Gate 1 Box Office</span>
+          <span class="px-2.5 py-1 rounded-md bg-[#F5F5F7] border border-[#D2D2D7] text-[#1D1D1F]">Gate 3 Medical Bay</span>
+          <span class="px-2.5 py-1 rounded-md bg-[#F5F5F7] border border-[#D2D2D7] text-[#1D1D1F]">Room 102 Bib Check-in</span>
+          <span class="px-2.5 py-1 rounded-md bg-[#F5F5F7] border border-[#D2D2D7] text-[#1D1D1F]">Lot B Shuttle Hub</span>
+        </div>
+      </div>
+
+    </aside>
+
+  </main>
+
+  <script>
+    function sendQuickPrompt(text) {
+      document.getElementById('chatInput').value = text;
+      handleUserInput(new Event('submit'));
+    }
+
+    async function handleUserInput(e) {
+      if (e) e.preventDefault();
+      const input = document.getElementById('chatInput');
+      const query = input.value.trim();
+      if (!query) return;
+
+      appendUserMessage(query);
+      input.value = '';
+
+      const typingId = appendTypingIndicator();
+
+      try {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: query })
+        });
+        const data = await response.json();
+        removeTypingIndicator(typingId);
+        appendBotMessage(data.response, data.source);
+      } catch (err) {
+        removeTypingIndicator(typingId);
+        appendBotMessage("Connection to the event server was interrupted. Please retry in a moment.");
+      }
+    }
+
+    function appendUserMessage(text) {
+      const container = document.getElementById('messagesContainer');
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'flex justify-end';
+      msgDiv.innerHTML = `
+        <div class="max-w-[80%] bg-[#0066CC] text-white rounded-2xl rounded-tr-sm px-4 py-2.5 text-xs sm:text-sm leading-relaxed shadow-subtle">
+          ${escapeHtml(text)}
+        </div>
+      `;
+      container.appendChild(msgDiv);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function appendBotMessage(text, source) {
+      const container = document.getElementById('messagesContainer');
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'flex items-start gap-3 max-w-[88%]';
+      msgDiv.innerHTML = `
+        <div class="w-7 h-7 rounded-full bg-[#F5F5F7] border border-[#D2D2D7] text-[#0066CC] flex-shrink-0 flex items-center justify-center mt-0.5">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="10" rx="2"></rect>
+            <circle cx="12" cy="5" r="2"></circle>
+            <path d="M12 7v4"></path>
+            <line x1="8" y1="16" x2="8.01" y2="16"></line>
+            <line x1="16" y1="16" x2="16.01" y2="16"></line>
+          </svg>
+        </div>
+        <div>
+          <div class="bg-[#F5F5F7] text-[#1D1D1F] rounded-2xl rounded-tl-sm px-4 py-3 text-xs sm:text-sm leading-relaxed whitespace-pre-line border border-[#D2D2D7]/40 shadow-subtle">
+            ${escapeHtml(text)}
+          </div>
+          ${source ? `<div class="text-[10px] font-mono text-[#6E6E73] mt-1 ml-1">${escapeHtml(source)}</div>` : ''}
+        </div>
+      `;
+      container.appendChild(msgDiv);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function appendTypingIndicator() {
+      const container = document.getElementById('messagesContainer');
+      const id = 'typing-' + Date.now();
+      const div = document.createElement('div');
+      div.id = id;
+      div.className = 'flex items-start gap-3 max-w-[88%]';
+      div.innerHTML = `
+        <div class="w-7 h-7 rounded-full bg-[#F5F5F7] border border-[#D2D2D7] text-[#0066CC] flex-shrink-0 flex items-center justify-center mt-0.5">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="10" rx="2"></rect>
+            <circle cx="12" cy="5" r="2"></circle>
+            <path d="M12 7v4"></path>
+            <line x1="8" y1="16" x2="8.01" y2="16"></line>
+            <line x1="16" y1="16" x2="16.01" y2="16"></line>
+          </svg>
+        </div>
+        <div class="bg-[#F5F5F7] text-[#6E6E73] rounded-2xl rounded-tl-sm px-4 py-3 text-xs flex items-center gap-1.5 border border-[#D2D2D7]/40">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#6E6E73] animate-pulse"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-[#6E6E73] animate-pulse" style="animation-delay: 200ms;"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-[#6E6E73] animate-pulse" style="animation-delay: 400ms;"></span>
+        </div>
+      `;
+      container.appendChild(div);
+      container.scrollTop = container.scrollHeight;
+      return id;
+    }
+
+    function removeTypingIndicator(id) {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/[&<>'"]/g, 
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+      );
+    }
+  </script>
+</body>
+</html>

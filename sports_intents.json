@@ -1,0 +1,133 @@
+{
+  "intents": [
+    {
+      "tag": "fixture_schedule",
+      "patterns": [
+        "When is the 100m sprint final?",
+        "What time does the 100m race start?",
+        "Show me the schedule for track and field",
+        "When is the next basketball game scheduled?",
+        "What time are the semi finals?",
+        "When does the tournament kick off tomorrow?",
+        "Who is playing at Court 3 this afternoon?",
+        "What is the match timetable?",
+        "Are there any games happening now?",
+        "When is the final match scheduled?"
+      ],
+      "responses": [
+        "The Men's & Women's 100m Finals are scheduled today at 04:15 PM on Main Track A. Spectator gates open at 03:30 PM."
+      ],
+      "dynamic_query": "fixtures"
+    },
+    {
+      "tag": "medical_hydration",
+      "patterns": [
+        "Where is the medical tent?",
+        "Where can I find first aid?",
+        "Is there an ambulance on site?",
+        "Where are the hydration stations?",
+        "I need water or medical assistance near Gate 3",
+        "Where is the doctor or paramedic?",
+        "Where can I refill my water bottle?",
+        "Emergency first aid location"
+      ],
+      "responses": [
+        "Medical Tent #2 is directly behind Concourse C, 50 meters south of Gate 3. Free hydration refill stations are operational beside every gate entrance."
+      ],
+      "dynamic_query": "facilities"
+    },
+    {
+      "tag": "weather_delays",
+      "patterns": [
+        "Is there any rain delay?",
+        "Are games delayed due to weather?",
+        "Has the tournament been postponed?",
+        "Is Track B closed because of rain?",
+        "What happens if it rains during the match?",
+        "Check weather delay status",
+        "Are outdoor matches cancelled today?"
+      ],
+      "responses": [
+        "All tracks and outdoor courts are currently dry and operational. There are no active weather delays; all sessions proceed on the standard timetable."
+      ],
+      "dynamic_query": "delays"
+    },
+    {
+      "tag": "rules_equipment",
+      "patterns": [
+        "What are the spike shoe rules?",
+        "Are metal spikes permitted on the track?",
+        "What gear is allowed for the sprint?",
+        "Equipment regulations for athletes",
+        "Can I wear football cleats on turf?",
+        "What is the jersey and uniform policy?",
+        "Weight regulations for equipment",
+        "Is video recording equipment allowed on the field?"
+      ],
+      "responses": [
+        "Only 6mm ceramic or pyramid spikes are permitted on synthetic running tracks. Full metal tree spikes are strictly prohibited under tournament safety code §4.2."
+      ],
+      "dynamic_query": null
+    },
+    {
+      "tag": "parking_transport",
+      "patterns": [
+        "Where can I park?",
+        "Is there spectator parking available?",
+        "How much does parking cost in Lot B?",
+        "Are there shuttle buses running from the parking lot?",
+        "Where is the VIP and staff parking area?",
+        "Is there wheelchair accessible parking near the stadium?"
+      ],
+      "responses": [
+        "Spectator parking is open in Lot B and Lot C ($10 day pass). Free electric shuttle carts depart every 6 minutes directly to the main stadium concourse."
+      ],
+      "dynamic_query": null
+    },
+    {
+      "tag": "ticketing_entry",
+      "patterns": [
+        "Where do I scan my ticket?",
+        "Can I buy tickets at the gate?",
+        "Where is the box office or will call desk?",
+        "Can children enter the sports event for free?",
+        "Can I re-enter the stadium after leaving?",
+        "Is there an entry pass required for athletes?"
+      ],
+      "responses": [
+        "Tickets can be scanned at Gate 1, 2, and 4. The Will Call Box Office is situated at Gate 1 North. Children under 5 enter free with a ticketed adult. Same-day re-entry requires a wristband stamp."
+      ],
+      "dynamic_query": null
+    },
+    {
+      "tag": "athlete_registration",
+      "patterns": [
+        "Where do athletes check in?",
+        "What time does registration close for runners?",
+        "Where do we get our bib numbers?",
+        "Where is the athlete weigh in station?",
+        "Can team managers pick up badges for athletes?",
+        "What is required at participant check-in?"
+      ],
+      "responses": [
+        "Athlete check-in and bib number distribution is located inside the Indoor Sports Hall, Room 102. Check-in closes strictly 45 minutes prior to each heat."
+      ],
+      "dynamic_query": null
+    },
+    {
+      "tag": "volunteer_staff_ops",
+      "patterns": [
+        "Where is the volunteer check in desk?",
+        "What radio channel are event marshals on?",
+        "Where is lost and found for the sports event?",
+        "Where is staff lunch served?",
+        "How do I report a missing item or gear?",
+        "Organizer headquarters and radio channel"
+      ],
+      "responses": [
+        "Volunteer & Staff HQ is located in Media Center Briefing Room 4. Emergency dispatch is monitored on Radio Channel 3 (Marshals Channel 2). The Lost & Found desk is situated at Gate 2 Customer Service."
+      ],
+      "dynamic_query": null
+    }
+  ]
+}
